@@ -6,7 +6,8 @@
 
 
 ForestGALES<-function(hght, dbh, sph, age, vol, soil.type, edge.distance=500, gap.size=0, mu, sigma){
-
+library(dplyr)
+  
 #This function computes the wind speed required to damage a tree based on the 
 #ForestGALES modelling approach developed by Prof. Barry Gardiner
 #The model has been ported over from MathCad and modified slightly for NZ conditions
@@ -112,5 +113,14 @@ print(results)
 #plot(age, utenturn, type="l", ylim=c(0,40))
 
 }
+
+#ForestGALES<-function(hght, dbh, sph, age, vol, soil.type, edge.distance=500, gap.size=0, mu, sigma){
+test<-data.frame(id=c(1,2), hght=c(22,35), dbh=c(330,440), sph=c(550,560), age=c(27,28), vol=c(2, 2), soil.type=c('B','B'),
+                 edge.distance=c(500,500), gap.size=c(0,0), mu= c(12.7, 12.2), sigma=c(1.2, 1.5))
+
+FG.out<- test %>% group_by(id) %>% summarise (cws=ForestGALES(hght, dbh, sph, age, vol, soil.type, edge.distance, 
+                                                              gap.size, mu, sigma))
+
+
 
 
